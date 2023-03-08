@@ -69,6 +69,7 @@ document
 function smoothPageNavigation(e) {
   e.preventDefault();
 
+  // Matching strategy
   if (e.target.classList.contains("nav__link")) {
     const id = e.target.getAttribute("href");
     console.log(id);
