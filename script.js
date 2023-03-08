@@ -52,9 +52,5 @@ scrollBtn?.addEventListener("click", scrollToSectionOne);
 
 // "MODERN WAY"
 function scrollToSectionOne() {
-  window?.scrollTo({
-    left: sectionToScrollLeft,
-    top: sectionToScrollTop,
-    behavior: "smooth",
-  });
+  sectionToScroll?.scrollIntoView({ behavior: "smooth" });
 }
