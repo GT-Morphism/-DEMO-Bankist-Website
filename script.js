@@ -29,3 +29,25 @@ document.addEventListener("keydown", function (e) {
     closeModal();
   }
 });
+
+///////////////////////////////////////////////
+// SMOOTH SCROLLING
+
+// "OLD SCHOOL WAY"
+const scrollBtn = document.querySelector(".btn--scroll-to");
+const sectionToScroll = document.getElementById("section--1");
+
+const sectionToScrollLeft =
+  sectionToScroll?.getBoundingClientRect().left + window.scrollX;
+const sectionToScrollTop =
+  sectionToScroll?.getBoundingClientRect().top + window.scrollY;
+
+scrollBtn?.addEventListener("click", scrollToSectionOne);
+
+function scrollToSectionOne() {
+  window?.scrollTo({
+    left: sectionToScrollLeft,
+    top: sectionToScrollTop,
+    behavior: "smooth",
+  });
+}
