@@ -1,6 +1,6 @@
 "use strict";
 
-///////////////////////////////////////
+///////////////////////////////////////////////
 // Modal window
 
 const modal = document.querySelector(".modal");
@@ -53,4 +53,25 @@ scrollBtn?.addEventListener("click", scrollToSectionOne);
 // "MODERN WAY"
 function scrollToSectionOne() {
   sectionToScroll?.scrollIntoView({ behavior: "smooth" });
+}
+
+///////////////////////////////////////////////
+// SMOOTH PAGE NAVIGATION
+
+// Event Delegation Strategy
+// 1. Add event listener to common parent element;
+// 2. Determine from what element the event originated;
+
+document
+  .querySelector(".nav__links")
+  ?.addEventListener("click", smoothPageNavigation);
+
+function smoothPageNavigation(e) {
+  e.preventDefault();
+
+  if (e.target.classList.contains("nav__link")) {
+    const id = e.target.getAttribute("href");
+    console.log(id);
+    document.querySelector(id).scrollIntoView({ behavior: "smooth" });
+  }
 }
