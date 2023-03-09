@@ -262,3 +262,62 @@ function lazyLoadFeatureImage(entries) {
 
   featureImageObserver.unobserve(observedFeatureImage.target);
 }
+
+///////////////////////////////////////////////
+// TESTIMONIAL SLIDER
+
+const slidesContainer = document.querySelector(".slider");
+const slides = slidesContainer?.querySelectorAll(".slide");
+
+setInitialSlidesPosition();
+
+const leftSliderBtn = slidesContainer?.querySelector(".slider__btn--left");
+const rightSliderBtn = slidesContainer?.querySelector(".slider__btn--right");
+
+rightSliderBtn?.addEventListener("click", moveSlidesLeft);
+leftSliderBtn?.addEventListener("click", moveSlidesRight);
+
+function setInitialSlidesPosition() {
+  slides?.forEach((slide, i) => {
+    slide.style.transform = `translateX(${i * 100}%)`;
+  });
+}
+
+function setFinalSlidesPosition() {
+  slides?.forEach((slide, i) => {
+    slide.style.transform = `translateX(${-(slides.length - i - 1) * 100}%)`;
+  });
+}
+
+const regex = /-?[0-9]+/;
+
+function moveSlidesLeft() {
+  moveSlides("left", slides[slides?.length - 1], setInitialSlidesPosition);
+}
+
+function moveSlidesRight() {
+  moveSlides("right", slides[0], setFinalSlidesPosition);
+}
+
+function moveSlides(direction, boundarySlide, slidesPositionAfterBoundary) {
+  if (boundarySlide.style.transform.match(regex)[0] == 0) {
+    slidesPositionAfterBoundary();
+    return;
+  }
+
+  let translateX;
+  slides?.forEach(slide => {
+    const currentPerc = Number.parseInt(slide.style.transform.match(regex)[0]);
+
+    if (direction == "left") {
+      translateX = `translateX(${currentPerc - 100}%)`;
+    }
+    if (direction == "right") {
+      translateX = `translateX(${currentPerc + 100}%)`;
+    }
+
+    slide.style.transform = translateX;
+  });
+}
+
+function toggleActiveSliderDot() {}
