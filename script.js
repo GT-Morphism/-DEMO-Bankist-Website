@@ -166,3 +166,28 @@ const header = document.querySelector(".header");
 //     navBar?.classList.remove("sticky");
 //   }
 // }
+
+const navBarHeight = navBar?.getBoundingClientRect().height;
+
+const headerObserverOpts = {
+  root: null,
+  threshold: 0,
+  rootMargin: `-${navBarHeight}px`,
+};
+
+const headerObserver = new IntersectionObserver(
+  toggleStickyNavigation,
+  headerObserverOpts
+);
+
+headerObserver.observe(header);
+
+function toggleStickyNavigation(entries, observer) {
+  const observedHeader = entries[0];
+
+  if (!observedHeader.isIntersecting) {
+    navBar?.classList.add("sticky");
+  } else {
+    navBar?.classList.remove("sticky");
+  }
+}
