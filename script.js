@@ -221,3 +221,44 @@ function revealSectionTitle(entries) {
   observedSection.target.classList.remove("section--hidden");
   sectionObserver.unobserve(observedSection.target);
 }
+
+///////////////////////////////////////////////
+// LAZY LOADING FEATURE IMAGES
+
+// can also select with "img[data-src]" instead of ".features img";
+const featureImages = document.querySelectorAll(".features img");
+
+const featureImageObserverOpts = {
+  root: null,
+  threshold: 1,
+  //rootMargin: "-128px", to take into account the 8rem shifted by the class "section--hidden";
+};
+
+const featureImageObserver = new IntersectionObserver(
+  lazyLoadFeatureImage,
+  featureImageObserverOpts
+);
+
+featureImages.forEach(featureImage =>
+  featureImageObserver.observe(featureImage)
+);
+
+function lazyLoadFeatureImage(entries) {
+  const observedFeatureImage = entries[0];
+  const featureImagePath = observedFeatureImage.target.dataset.src;
+
+  if (!observedFeatureImage.isIntersecting) {
+    return;
+  }
+
+  observedFeatureImage.target.setAttribute("src", featureImagePath);
+  observedFeatureImage.target.classList.remove("lazy-img");
+
+  // if you want to remove the filter only AFTER the featureImage has loaded, you
+  // can use the "load" event in the following way:
+  // observedFeatureImage.target.addEventListener("load", () =>
+  //   observedFeatureImage.target.classList.remove("lazy-img")
+  // );
+
+  featureImageObserver.unobserve(observedFeatureImage.target);
+}
