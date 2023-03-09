@@ -323,6 +323,7 @@ function lazyLoadFeatureImage(entries) {
 
 const slidesContainer = document.querySelector(".slider");
 const slides = slidesContainer?.querySelectorAll(".slide");
+const sliderDots = slidesContainer?.querySelectorAll(".dots__dot");
 
 const leftSliderBtn = slidesContainer?.querySelector(".slider__btn--left");
 const rightSliderBtn = slidesContainer?.querySelector(".slider__btn--right");
@@ -349,12 +350,16 @@ window.addEventListener("keydown", e => {
   return;
 });
 
+slidesContainer?.addEventListener("click", handleSlidesDotClick);
+
 function nextSlide() {
   goToSlide(adjustCurrentSlide(...provideBoundaries("next")));
+  toggleActiveSliderDot();
 }
 
 function prevSlide() {
   goToSlide(adjustCurrentSlide(...provideBoundaries("prev")));
+  toggleActiveSliderDot();
 }
 
 function goToSlide(slideToGo) {
@@ -393,4 +398,29 @@ function adjustCurrentSlide(directon, boundarySlide, slideAfterBoundary) {
       return --currentSlide;
     }
   }
+}
+
+function toggleActiveSliderDot() {
+  sliderDots?.forEach(sliderDot =>
+    sliderDot.classList.remove("dots__dot--active")
+  );
+
+  const currentSliderDot = [...sliderDots].filter(
+    sliderDot => sliderDot.dataset.slide == currentSlide
+  )[0];
+
+  currentSliderDot.classList.add("dots__dot--active");
+}
+
+function handleSlidesDotClick(e) {
+  const slidesDotClicked = e.target;
+
+  if (!slidesDotClicked.classList.contains("dots__dot")) {
+    return;
+  }
+
+  currentSlide = slidesDotClicked.dataset.slide;
+
+  goToSlide(currentSlide);
+  toggleActiveSliderDot();
 }
