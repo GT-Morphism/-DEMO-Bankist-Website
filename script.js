@@ -153,15 +153,16 @@ function fadeInAllNavLinks(e) {
 
 const header = document.querySelector(".header");
 
-document.addEventListener("scroll", toggleStickyNavigation);
+// Non efficient way using scroll event;
+// document.addEventListener("scroll", toggleStickyNavigation);
 
-function toggleStickyNavigation() {
-  const headerHeight =
-    header?.getBoundingClientRect().bottom -
-    header?.getBoundingClientRect().top;
-  if (window.scrollY >= headerHeight) {
-    navBar?.classList.add("sticky");
-  } else {
-    navBar?.classList.remove("sticky");
-  }
-}
+// function toggleStickyNavigation() {
+//   const headerHeight =
+//     header?.getBoundingClientRect().bottom -
+//     header?.getBoundingClientRect().top;
+//   if (window.scrollY >= headerHeight) {
+//     navBar?.classList.add("sticky");
+//   } else {
+//     navBar?.classList.remove("sticky");
+//   }
+// }
