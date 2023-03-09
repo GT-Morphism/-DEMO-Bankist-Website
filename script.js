@@ -76,3 +76,41 @@ function smoothPageNavigation(e) {
     document.querySelector(id).scrollIntoView({ behavior: "smooth" });
   }
 }
+
+///////////////////////////////////////////////
+// TABBED COMPONENT
+
+document
+  .querySelector(".operations__tab-container")
+  ?.addEventListener("click", toggleActiveTab);
+
+const tabBtns = [...document.querySelectorAll(".operations__tab")];
+const tabContents = [...document.querySelectorAll(".operations__content")];
+
+function toggleActiveTab(e) {
+  const clickedTabID = e.target.closest(".btn")?.dataset.tab;
+  if (!clickedTabID) {
+    return;
+  }
+  const clickedTabBtn = tabBtns.filter(
+    tabBtn => tabBtn.dataset.tab == clickedTabID
+  )[0];
+
+  tabBtns.forEach(tabBtn => tabBtn.classList.remove("operations__tab--active"));
+
+  clickedTabBtn.classList.add("operations__tab--active");
+
+  toggleActiveContent(clickedTabID);
+}
+
+function toggleActiveContent(tabID) {
+  const activeContent = tabContents.filter(tabContent =>
+    tabContent.classList.contains(`operations__content--${tabID}`)
+  )[0];
+
+  tabContents.forEach(tabContent =>
+    tabContent.classList.remove("operations__content--active")
+  );
+
+  activeContent.classList.add("operations__content--active");
+}
