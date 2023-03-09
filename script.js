@@ -147,3 +147,21 @@ function fadeInAllNavLinks(e) {
 
   navBarElements.forEach(navBarElement => (navBarElement.style.opacity = "1"));
 }
+
+///////////////////////////////////////////////
+// STICKY NAVIGATION
+
+const header = document.querySelector(".header");
+
+document.addEventListener("scroll", toggleStickyNavigation);
+
+function toggleStickyNavigation() {
+  const headerHeight =
+    header?.getBoundingClientRect().bottom -
+    header?.getBoundingClientRect().top;
+  if (window.scrollY >= headerHeight) {
+    navBar?.classList.add("sticky");
+  } else {
+    navBar?.classList.remove("sticky");
+  }
+}
