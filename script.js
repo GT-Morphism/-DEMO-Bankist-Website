@@ -114,3 +114,36 @@ function toggleActiveContent(tabID) {
 
   activeContent.classList.add("operations__content--active");
 }
+
+///////////////////////////////////////////////
+// FADE OUT PAGE NAVIGATION ON HOVER
+
+const navBar = document.querySelector(".nav");
+const navLinks = document.querySelectorAll(".nav__link");
+const logo = document.querySelector("#logo");
+const navBarElements = [logo, ...navLinks];
+
+navBar?.addEventListener("mouseover", fadeOutOtherNavLinks);
+navBar?.addEventListener("mouseout", fadeInAllNavLinks);
+
+function fadeOutOtherNavLinks(e) {
+  if (!e.target.classList.contains("nav__link")) {
+    return;
+  }
+
+  const navLinksNotHovered = navBarElements.filter(
+    navBarElement => navBarElement != e.target
+  );
+
+  navLinksNotHovered.forEach(
+    navLinkNotHovered => (navLinkNotHovered.style.opacity = "0.5")
+  );
+}
+
+function fadeInAllNavLinks(e) {
+  if (!e.target.classList.contains("nav__link")) {
+    return;
+  }
+
+  navBarElements.forEach(navBarElement => (navBarElement.style.opacity = "1"));
+}
