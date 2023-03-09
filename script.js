@@ -321,4 +321,76 @@ function lazyLoadFeatureImage(entries) {
 //   });
 // }
 
-function toggleActiveSliderDot() {}
+const slidesContainer = document.querySelector(".slider");
+const slides = slidesContainer?.querySelectorAll(".slide");
+
+const leftSliderBtn = slidesContainer?.querySelector(".slider__btn--left");
+const rightSliderBtn = slidesContainer?.querySelector(".slider__btn--right");
+
+// State variable defining current slide
+let currentSlide = 0;
+// To determine when to stop moving slides below
+const numberOfSlides = slides?.length || 0;
+// Set initial state
+goToSlide(currentSlide);
+
+rightSliderBtn?.addEventListener("click", nextSlide);
+leftSliderBtn?.addEventListener("click", prevSlide);
+
+window.addEventListener("keydown", e => {
+  if (e.key == "ArrowLeft") {
+    prevSlide();
+  }
+
+  if (e.key == "ArrowRight") {
+    nextSlide();
+  }
+
+  return;
+});
+
+function nextSlide() {
+  goToSlide(adjustCurrentSlide(...provideBoundaries("next")));
+}
+
+function prevSlide() {
+  goToSlide(adjustCurrentSlide(...provideBoundaries("prev")));
+}
+
+function goToSlide(slideToGo) {
+  slides?.forEach((slide, index) => {
+    slide.style.transform = `translateX(${(index - slideToGo) * 100}%)`;
+  });
+}
+
+function provideBoundaries(direction) {
+  let boundarySlide;
+  let slideAfterBoundary;
+
+  if (direction == "next") {
+    boundarySlide = numberOfSlides - 1;
+    slideAfterBoundary = 0;
+  }
+
+  if (direction == "prev") {
+    boundarySlide = 0;
+    slideAfterBoundary = numberOfSlides - 1;
+  }
+
+  return [direction, boundarySlide, slideAfterBoundary];
+}
+
+function adjustCurrentSlide(directon, boundarySlide, slideAfterBoundary) {
+  if (currentSlide == boundarySlide) {
+    currentSlide = slideAfterBoundary;
+    return currentSlide;
+  } else {
+    if (directon == "next") {
+      return ++currentSlide;
+    }
+
+    if (directon == "prev") {
+      return --currentSlide;
+    }
+  }
+}
