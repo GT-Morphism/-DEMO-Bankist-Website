@@ -181,7 +181,7 @@ const headerObserver = new IntersectionObserver(
 
 headerObserver.observe(header);
 
-function toggleStickyNavigation(entries, observer) {
+function toggleStickyNavigation(entries) {
   const observedHeader = entries[0];
 
   if (!observedHeader.isIntersecting) {
@@ -189,4 +189,35 @@ function toggleStickyNavigation(entries, observer) {
   } else {
     navBar?.classList.remove("sticky");
   }
+}
+
+///////////////////////////////////////////////
+// REVEAL SECTION TITLE ON SCROLL
+
+const sections = document.querySelectorAll(".section");
+
+const sectionObserverOpts = {
+  root: null,
+  threshold: 0.15,
+};
+
+const sectionObserver = new IntersectionObserver(
+  revealSectionTitle,
+  sectionObserverOpts
+);
+
+sections.forEach(section => {
+  sectionObserver.observe(section);
+  section.classList.add("section--hidden");
+});
+
+function revealSectionTitle(entries) {
+  const observedSection = entries[0];
+
+  if (!observedSection.isIntersecting) {
+    return;
+  }
+
+  observedSection.target.classList.remove("section--hidden");
+  sectionObserver.unobserve(observedSection.target);
 }
